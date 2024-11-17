@@ -13,7 +13,7 @@ require (
 	github.com/gobwas/pool v0.2.0 // indirect
 	github.com/gobwas/ws v1.0.3
 	github.com/gogo/protobuf v1.3.2
-	github.com/golang/snappy v0.0.1
+	github.com/golang/snappy v0.0.4
 	github.com/lib/pq v1.7.0
 	github.com/mailru/easyjson v0.7.1 // indirect
 	github.com/negbie/cert v0.0.0-20190324145947-d1018a8fb00f
@@ -29,7 +29,8 @@ require (
 	github.com/stretchr/testify v1.7.0
 	github.com/valyala/bytebufferpool v1.0.0
 	github.com/valyala/fasttemplate v1.1.1
-	golang.org/x/sync v0.0.0-20201020160332-67f06af15bc9
+	go.mongodb.org/mongo-driver v1.17.1 // indirect
+	golang.org/x/sync v0.8.0
 	google.golang.org/genproto v0.0.0-20200619004808-3e7fca5c55db // indirect
 	google.golang.org/grpc v1.29.1
 )

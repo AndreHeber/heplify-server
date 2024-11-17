@@ -25,6 +25,7 @@ func New(name string) *Database {
 	var register = map[string]DBHandler{
 		"mysql":    new(MySQL),
 		"postgres": new(Postgres),
+        "mongodb":  new(MongoDB),
 		"mock":     new(Mock),
 	}
 
