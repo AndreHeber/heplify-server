@@ -18,7 +18,7 @@ services:
       - '--storage.tsdb.path=/prometheus'
       - '--web.console.libraries=/etc/prometheus/console_libraries'
       - '--web.console.templates=/etc/prometheus/consoles'
-      - '--storage.tsdb.retention=30d'
+      - '--storage.tsdb.retention.time=30d'
       - '--web.enable-lifecycle'
     restart: unless-stopped
     expose:
@@ -61,7 +61,7 @@ services:
       - monitor-net
 
   caddy:
-    image: stefanprodan/caddy
+    image: caddy
     container_name: caddy
     ports:
       - "3000:3000"
@@ -78,14 +78,15 @@ services:
       - monitor-net
 
   db:
-    image: postgres:13-alpine
+    image: postgres:16-alpine
     container_name: db
     volumes:
+      - ./postgres/init-multiple-databases.sh:/docker-entrypoint-initdb.d/init-multiple-databases.sh
       - postgres_data:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: homerpass
       POSTGRES_USER: homer
-      POSTGRES_DB: homer
+      POSTGRES_MULTIPLE_DATABASES: homer_data # database homer exists
     ports:
       - "5432:5432"
     networks:
@@ -117,7 +118,7 @@ services:
       - "HEPLIFYSERVER_DBADDR=db:5432"
       - "HEPLIFYSERVER_DBUSER=homer"
       - "HEPLIFYSERVER_DBPASS=homerpass"
-      - "HEPLIFYSERVER_DBDATATABLE=homer_data" 
+      - "HEPLIFYSERVER_DBDATATABLE=homer_data"
       - "HEPLIFYSERVER_DBCONFTABLE=homer_config"
       - "HEPLIFYSERVER_DBROTATE=true"
       - "HEPLIFYSERVER_DBPARTLOG=2h"

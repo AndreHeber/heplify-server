@@ -1,39 +1,52 @@
-
 :9090 {
-    basicauth / {$ADMIN_USER} {$ADMIN_PASSWORD}
-    proxy / prometheus:9090 {
-            transparent
-        }
+	basic_auth {
+		admin $2a$12$tgM5GUK82z8UE1.xMe1/j.i.wtryPeRysqh2AbvXQcbQAOg/3u5ne
+	}
+	reverse_proxy / prometheus:9090 {
+		header_up Host {host}
+	}
 
-    errors stderr
-    tls off
+	log {
+		output stderr
+	}
+	tls internal
 }
 
 :9093 {
-    basicauth / {$ADMIN_USER} {$ADMIN_PASSWORD}
-    proxy / alertmanager:9093 {
-            transparent
-        }
+	basic_auth {
+		admin $2a$12$tgM5GUK82z8UE1.xMe1/j.i.wtryPeRysqh2AbvXQcbQAOg/3u5ne
+	}
+	reverse_proxy / alertmanager:9093 {
+		header_up Host {host}
+	}
 
-    errors stderr
-    tls off
+	log {
+		output stderr
+	}
+	tls internal
 }
 
 :3000 {
-    proxy / grafana:3000 {
-            transparent
-            websocket
-        }
+	reverse_proxy / grafana:3000 {
+		header_up Host {host}
+		transport http {
+			versions 2
+		}
+	}
 
-    errors stderr
-    tls off
+	log {
+		output stderr
+	}
+	tls internal
 }
 
 :9080 {
-    proxy / homer-webapp:80 {
-            transparent
-        }
+	reverse_proxy / homer-webapp:80 {
+		header_up Host {host}
+	}
 
-    errors stderr
-    tls off
+	log {
+		output stderr
+	}
+	tls internal
 }
